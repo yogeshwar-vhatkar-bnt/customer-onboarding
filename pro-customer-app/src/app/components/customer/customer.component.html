@@ -1,0 +1,87 @@
+<div class="container">
+  <h2>Customer Management</h2>
+
+  <!-- Customer Form -->
+  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="customer-form">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        class="form-control"
+        [ngClass]="{'is-invalid': customerForm.get('name')?.invalid && customerForm.get('name')?.touched}"
+      >
+      <div class="invalid-feedback" *ngIf="customerForm.get('name')?.invalid && customerForm.get('name')?.touched">
+        Name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        class="form-control"
+        [ngClass]="{'is-invalid': customerForm.get('email')?.invalid && customerForm.get('email')?.touched}"
+      >
+      <div class="invalid-feedback" *ngIf="customerForm.get('email')?.invalid && customerForm.get('email')?.touched">
+        Valid email is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input
+        id="phone"
+        type="text"
+        formControlName="phone"
+        class="form-control"
+        [ngClass]="{'is-invalid': customerForm.get('phone')?.invalid && customerForm.get('phone')?.touched}"
+      >
+      <div class="invalid-feedback" *ngIf="customerForm.get('phone')?.invalid && customerForm.get('phone')?.touched">
+        Phone is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input
+        id="address"
+        type="text"
+        formControlName="address"
+        class="form-control"
+        [ngClass]="{'is-invalid': customerForm.get('address')?.invalid && customerForm.get('address')?.touched}"
+      >
+      <div class="invalid-feedback" *ngIf="customerForm.get('address')?.invalid && customerForm.get('address')?.touched">
+        Address is required
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button type="submit" class="btn btn-primary" [disabled]="customerForm.invalid">
+        {{ isEditing ? 'Update' : 'Add' }} Customer
+      </button>
+      <button type="button" class="btn btn-secondary" *ngIf="isEditing" (click)="resetForm()">
+        Cancel
+      </button>
+    </div>
+  </form>
+
+  <!-- Customer List -->
+  <div class="customer-list">
+    <div class="customer-card" *ngFor="let customer of customers">
+      <div class="customer-info">
+        <h3>{{ customer.name }}</h3>
+        <p>Email: {{ customer.email }}</p>
+        <p>Phone: {{ customer.phone }}</p>
+        <p>Address: {{ customer.address }}</p>
+      </div>
+      <div class="customer-actions">
+        <button class="btn btn-warning" (click)="editCustomer(customer)">Edit</button>
+        <button class="btn btn-danger" (click)="deleteCustomer(customer.id!)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,67 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>Welcome Back</h1>
+      <p>{{ !isOtpStep ? 'Enter your email or mobile number' : 'Enter the OTP sent to you' }}</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Username Field (Email/Mobile) -->
+      <div class="form-field" *ngIf="!isOtpStep">
+        <label for="username">Email or Mobile Number</label>
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          [class.invalid]="f['username'].invalid && (f['username'].dirty || f['username'].touched)"
+          placeholder="Enter email or mobile number"
+        >
+        <div class="error-message" *ngIf="f['username'].invalid && (f['username'].dirty || f['username'].touched)">
+          {{ getUsernameErrorMessage() }}
+        </div>
+      </div>
+
+      <!-- OTP Field -->
+      <div class="form-field" *ngIf="isOtpStep">
+        <label for="otp">One-Time Password</label>
+        <input
+          id="otp"
+          type="text"
+          formControlName="otp"
+          [class.invalid]="f['otp'].invalid && (f['otp'].dirty || f['otp'].touched)"
+          placeholder="Enter 6-digit OTP"
+          maxlength="6"
+        >
+        <div class="error-message" *ngIf="f['otp'].invalid && (f['otp'].dirty || f['otp'].touched)">
+          {{ getOtpErrorMessage() }}
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Submit Button -->
+      <button 
+        type="submit" 
+        class="submit-button" 
+        [disabled]="(!isOtpStep && f['username'].invalid) || (isOtpStep && f['otp'].invalid) || loading"
+      >
+        <span *ngIf="!loading">{{ !isOtpStep ? 'Get OTP' : 'Login' }}</span>
+        <span *ngIf="loading" class="loader"></span>
+      </button>
+
+      <!-- Back Button (Only show during OTP step) -->
+      <button 
+        type="button" 
+        class="back-button" 
+        *ngIf="isOtpStep" 
+        (click)="resetForm()"
+        [disabled]="loading"
+      >
+        Back to Email/Mobile
+      </button>
+    </form>
+  </div>
+</div> 

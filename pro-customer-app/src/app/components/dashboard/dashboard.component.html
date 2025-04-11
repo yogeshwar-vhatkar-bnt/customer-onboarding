@@ -1,0 +1,59 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <div class="actions">
+      <button class="btn primary" (click)="navigateToNewCustomer()">
+        <i class="fas fa-plus"></i> Add Customer
+      </button>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="card">
+        <div class="card-content">
+          <h3>Total Customers</h3>
+          <div class="card-value" *ngIf="!loading">{{ totalCustomers }}</div>
+          <div class="card-value skeleton" *ngIf="loading"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Customers -->
+    <div class="recent-customers">
+      <div class="section-header">
+        <h2>Recent Customers</h2>
+        <button class="btn secondary" (click)="navigateToCustomers()">View All</button>
+      </div>
+
+      <div class="customers-list" *ngIf="!loading && recentCustomers.length > 0">
+        <div class="customer-item" *ngFor="let customer of recentCustomers">
+          <div class="customer-info">
+            <h3>{{ customer.name }}</h3>
+            <p>{{ customer.email }}</p>
+          </div>
+          <div class="customer-contact">
+            <p>{{ customer.phone }}</p>
+            <p class="address">{{ customer.address }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-data" *ngIf="!loading && recentCustomers.length === 0">
+        <p>No customers found. Start by adding a new customer.</p>
+        <button class="btn primary" (click)="navigateToNewCustomer()">Add Customer</button>
+      </div>
+
+      <!-- Loading Skeleton -->
+      <div class="customers-list skeleton" *ngIf="loading">
+        <div class="customer-item skeleton" *ngFor="let i of [1,2,3]">
+          <div class="customer-info">
+            <div class="skeleton-text"></div>
+            <div class="skeleton-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
